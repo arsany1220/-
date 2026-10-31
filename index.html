@@ -4,6 +4,101 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10151c">
+<title>ألعاب الشلة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Changa:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#10151c;--gold:#f2b94b;--gold2:#ffe2a0;--text:#f7f1e7;--muted:#a9b1bd;--line:rgba(255,255,255,.14)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif}
+body{min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#394354,#151c26 45%,#0b0e13)}
+button,input{font:inherit}button{cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+h1,h2,h3{font-family:'Changa',sans-serif;margin:0}
+.app{width:min(720px,100%);margin:auto;padding:20px 14px 36px}
+.hero{text-align:center;margin-bottom:18px}
+.hero h1{font-size:clamp(34px,8vw,52px);color:var(--gold2)}
+.note{color:var(--muted);font-size:13px;line-height:1.9;margin:4px 0}
+.hidden{display:none!important}
+.panel{background:linear-gradient(145deg,#1f2834,#0f141c);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 18px 50px #0003}
+.panel h2{font-size:22px;margin-bottom:10px;color:var(--gold2)}
+.label{display:block;font-size:13px;font-weight:800;margin:12px 0 7px}
+.input{width:100%;background:#0e131a;border:1px solid #ffffff22;color:var(--text);border-radius:12px;padding:12px 13px}
+.btn{border:1px solid #f7d58a44;border-radius:13px;padding:11px 16px;font-weight:800;background:linear-gradient(135deg,#f6ce72,#c58a25);color:#241a0c;display:block;width:100%;margin-top:12px}
+.who{text-align:center;font-size:14px;color:var(--muted);margin-bottom:14px}
+.who strong{color:var(--gold2)}
+.who a{color:var(--muted)}
+.games{display:grid;gap:12px;margin-bottom:14px}
+.game{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--text);background:linear-gradient(145deg,#222d3a,#10151c);border:1px solid #f2b94b44;border-radius:20px;padding:16px;transition:transform .12s,border-color .12s}
+.game:hover{border-color:var(--gold);transform:translateY(-2px)}
+.game:active{transform:translateY(0)}
+.game .ic{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;font-size:32px;flex:none}
+.game h3{font-size:22px;color:var(--gold2)}
+.game p{margin:3px 0 0;font-size:13px;color:var(--muted);line-height:1.7}
+.tag{display:inline-block;font-size:11px;font-weight:800;border:1px solid var(--line);border-radius:99px;padding:1px 9px;margin-top:5px;color:var(--gold2)}
+.board{list-style:none;padding:0;margin:0}
+.board li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 3px;border-bottom:1px solid var(--line);font-weight:800}
+.board li:last-child{border:0}
+.board b{font:800 21px 'Changa',sans-serif;color:var(--gold2)}
+#frameWrap{position:fixed;inset:0;background:#0b0e13;z-index:10}
+#gf{display:block;width:100%;height:100%;border:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <h1>🎮 ألعاب الشلة</h1>
+  <p class="note">كل النقط بتتجمع في ترتيب واحد للأسبوع</p>
+</div>
+
+<section id="vName" class="hidden">
+  <div class="panel">
+    <h2>اسمك إيه؟</h2>
+    <p class="note">هو الاسم اللي هتلعب بيه في كل الألعاب.</p>
+    <form id="nameForm">
+      <label class="label" for="nameInput">الاسم</label>
+      <input class="input" id="nameInput" maxlength="20" autocomplete="off" required>
+      <button class="btn" type="submit">يلا ←</button>
+    </form>
+  </div>
+</section>
+
+<section id="vHub" class="hidden">
+  <p class="who">اللاعب: <strong id="who"></strong> · <a href="#" id="changeName">غيّر الاسم</a></p>
+  <div class="games">
+    <a class="game" href="#osama">
+      <div class="ic" style="background:linear-gradient(145deg,#ffe4a4,#c58b28)">🪢</div>
+      <div><h3>كرباج أسامة</h3><p>اجري ورا أسامة في الصحرا وإنت شايل الكرباج وهو شايل الصخرة.</p><span class="tag">لاعب واحد · 3D</span></div>
+    </a>
+    <a class="game" href="#quiz">
+      <div class="ic" style="background:linear-gradient(145deg,#9fe6ff,#2d8bb8)">🎯</div>
+      <div><h3>لعبة الأغلبية</h3><p>سؤال والكل بيصوّت. اللي مع الأغلبية بياخد نقط.</p><span class="tag">٢ لاعبين أو أكتر · من الموبايل</span></div>
+    </a>
+    <a class="game" href="#race">
+      <div class="ic" style="background:linear-gradient(145deg,#ffb36b,#e0551c)">🔥</div>
+      <div><h3>سباق الدرجات النارية</h3><p>اطلع الدرجات قبل التانيين، وخد بالك من النار، وركل اللي جنبك.</p><span class="tag">٢ لـ ١٠ لاعبين · 3D</span></div>
+    </a>
+  </div>
+  <div class="panel">
+    <h2>🏆 ترتيب الأسبوع</h2>
+    <ol class="board" id="board"></ol>
+    <p class="note hidden" id="boardEmpty" style="text-align:center">لسه مفيش نقط الأسبوع ده.</p>
+  </div>
+  <div class="panel hidden" id="lastPanel">
+    <p class="note" style="margin:0">بطل الأسبوع اللي فات</p>
+    <h2 id="lastWinner" style="margin:3px 0 0"></h2>
+  </div>
+</section>
+</div>
+
+<div id="frameWrap" class="hidden"><iframe id="gf" title="لعبة" allow="fullscreen" allowfullscreen></iframe></div>
+<script type="text/plain" id="g-osama">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10151c">
 <title>هرم أسامة | 3D</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Changa:wght@600;800&display=swap" rel="stylesheet">
 <style>
@@ -93,6 +188,7 @@ h1,h2{font-family:'Changa',sans-serif;margin:0}
 <header class="top">
   <div class="logo" id="logo">𓂀</div>
   <div><h1>هرم أسامة</h1><p class="note">مغامرة الصخرة • نسخة 3D</p></div>
+  <a class="btn sec" href="#" onclick="parent.goHub();return false" style="margin-inline-start:auto;text-decoration:none">🏠 الألعاب</a>
 </header>
 
 <section class="screen on" id="login">
@@ -279,7 +375,7 @@ h1,h2{font-family:'Changa',sans-serif;margin:0}
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"><\/script>
 <script>
 (()=>{'use strict';
 const $=s=>document.querySelector(s);
@@ -949,6 +1045,981 @@ $('#adminClose').onclick=()=>{
 paintSettings();
 const savedName=localStorage.getItem('q_player_name');
 if(savedName)enterApp(savedName);else{show('login');loadConfig()}
+})();
+<\/script>
+</body>
+</html>
+
+</script>
+<script type="text/plain" id="g-quiz">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10151c">
+<title>لعبة الأغلبية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Changa:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#10151c;--gold:#f2b94b;--gold2:#ffe2a0;--text:#f7f1e7;--muted:#a9b1bd;--line:rgba(255,255,255,.14);--green:#7ee3a2;--red:#ffb1b5}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif}
+body{min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#394354,#151c26 45%,#0b0e13)}
+button,input{font:inherit}button{cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+h1,h2{font-family:'Changa',sans-serif;margin:0}
+.app{width:min(640px,100%);margin:auto;padding:16px 14px 32px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.logo{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#ffe4a4,#c58b28);color:#241a0c;font-size:24px;user-select:none;flex:none}
+.top h1{font-size:clamp(24px,5vw,32px)}
+.note{color:var(--muted);font-size:12px;line-height:1.9;margin:3px 0}
+.panel{background:linear-gradient(145deg,#1f2834,#0f141c);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 18px 50px #0003}
+.panel h2{font-size:22px;margin-bottom:10px;color:var(--gold2)}
+.hidden{display:none!important}
+.label{display:block;font-size:13px;font-weight:800;margin:12px 0 7px}
+.input{width:100%;background:#0e131a;border:1px solid #ffffff22;color:var(--text);border-radius:12px;padding:12px 13px}
+.btn{border:1px solid #f7d58a44;border-radius:13px;padding:11px 16px;font-weight:800;background:linear-gradient(135deg,#f6ce72,#c58a25);color:#241a0c;text-decoration:none;display:inline-block;text-align:center}
+.btn:active{transform:translateY(1px)}
+.btn.sec{background:#ffffff0a;color:var(--text);border-color:var(--line)}
+.btn.danger{background:#ff626b22;color:var(--red);border-color:#ff626b66}
+.btn.full{width:100%;margin-top:12px;display:block}
+.btn:disabled{opacity:.4}
+.meta{display:flex;justify-content:space-between;gap:8px;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.pill{background:#ffffff0a;border:1px solid var(--line);border-radius:12px;padding:5px 10px;font-size:12px;font-weight:800}
+.pill strong{color:var(--gold2)}
+.bar{height:8px;border-radius:99px;background:#ffffff22;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f0a52f,#ffe6a1)}
+.question{font:800 clamp(24px,6vw,34px) 'Changa',sans-serif;line-height:1.4;margin:6px 0 16px;overflow-wrap:anywhere}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:right;background:#ffffff08;border:2px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;font-size:18px;font-weight:800;position:relative;overflow:hidden}
+.opt .badge{width:34px;height:34px;border-radius:10px;background:#ffffff12;display:grid;place-items:center;flex:none;color:var(--gold2)}
+.opt .txt{flex:1;overflow-wrap:anywhere}
+button.opt:active{transform:scale(.99)}
+.opt.sel{border-color:var(--gold);background:#f2b94b1a}
+.opt.win{border-color:var(--green);background:#7ee3a21a}
+.opt .fill{position:absolute;inset:0 auto 0 0;background:#ffffff10;z-index:0;transition:width .5s}
+.opt.win .fill{background:#7ee3a22a}
+.opt>*{position:relative;z-index:1}
+.opt .cnt{font:800 22px 'Changa',sans-serif;color:var(--gold2)}
+.names{font-size:11px;color:var(--muted);margin:-4px 4px 10px;overflow-wrap:anywhere}
+.result{margin-top:8px;padding:12px;border-radius:14px;background:#ffffff0a;border:1px solid var(--line);text-align:center;font-weight:800}
+.result.good{background:#7ee3a21a;border-color:#7ee3a255;color:var(--green)}
+.msg{min-height:20px;font-size:13px;color:var(--gold2);margin:8px 0;text-align:center}
+.big{font-size:54px;text-align:center}
+.board{list-style:none;padding:0;margin:0}
+.board li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 3px;border-bottom:1px solid var(--line);font-weight:800}
+.board li:last-child{border:0}
+.board b{font:800 21px 'Changa',sans-serif;color:var(--gold2)}
+.modal{display:none;position:fixed;inset:0;z-index:50;background:#05080dcc;padding:16px;overflow:auto;place-items:center}
+.modal.on{display:grid}
+.card{width:min(520px,100%);background:linear-gradient(145deg,#222d3a,#10151c);border:1px solid #f2b94b66;border-radius:22px;padding:20px}
+.card h2{color:var(--gold2);margin:0 0 8px}
+.ban .card{text-align:center;border-color:#ff626b88}
+.ban h2{color:var(--red)}
+.reasonbox{margin:12px 0;padding:12px;border-radius:14px;background:#ff626b14;border:1px solid #ff626b55;font-size:17px;font-weight:800;overflow-wrap:anywhere}
+.arow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.arow span{overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="logo" id="logo">🎯</div>
+  <div><h1>لعبة الأغلبية</h1><p class="note">صوّت مع الأغلبية واكسب نقط</p></div>
+  <a class="btn sec" href="#" onclick="parent.goHub();return false" style="margin-inline-start:auto">🏠 الألعاب</a>
+</header>
+
+<section id="vName" class="hidden">
+  <div class="panel">
+    <h2>اسمك إيه؟</h2>
+    <p class="note">نفس الاسم اللي بتلعب بيه في لعبة الهرم.</p>
+    <form id="nameForm">
+      <label class="label" for="nameInput">الاسم</label>
+      <input class="input" id="nameInput" maxlength="20" autocomplete="off" required>
+      <button class="btn full" type="submit">يلا نلعب ←</button>
+    </form>
+  </div>
+</section>
+
+<section id="vMain" class="hidden">
+  <div class="meta"><span>اللاعب: <strong id="who" style="color:var(--gold2)"></strong> · <a href="#" id="changeName" style="color:var(--muted)">غيّر</a></span><span id="conn"></span></div>
+  <div id="stage"></div>
+  <div class="panel">
+    <h2>🏆 ترتيب الأسبوع</h2>
+    <ol class="board" id="board"></ol>
+    <p class="note hidden" id="boardEmpty" style="text-align:center">لسه مفيش نقط الأسبوع ده.</p>
+  </div>
+</section>
+</div>
+
+<div class="modal ban" id="banModal" role="alertdialog" aria-modal="true" aria-labelledby="banTitle" style="z-index:100">
+  <div class="card">
+    <div style="font-size:60px;text-align:center">🚫</div>
+    <h2 id="banTitle">تم حظرك من اللعبة</h2>
+    <p class="note" style="font-size:15px">سبب الحظر:</p>
+    <div class="reasonbox" id="banReason"></div>
+    <p class="note">لو شايف إن ده غلط كلّم صاحب اللعبة.</p>
+  </div>
+</div>
+
+<div class="modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminTitle" style="z-index:90">
+  <div class="card">
+    <h2 id="adminTitle">🛡️ لوحة الأدمن</h2>
+    <div id="adminLogin">
+      <label class="label" for="adminPin">الرقم السري</label>
+      <input class="input" id="adminPin" type="password" autocomplete="off">
+      <button class="btn full" id="adminEnter">دخول</button>
+    </div>
+    <div id="adminBody" class="hidden">
+      <label class="label" for="aq">سؤال جديد</label>
+      <input class="input" id="aq" maxlength="200" placeholder="اكتب السؤال">
+      <label class="label">الاختيارات (٢ على الأقل، ٤ بالكتير)</label>
+      <input class="input ao" maxlength="60" placeholder="اختيار 1" style="margin-bottom:8px">
+      <input class="input ao" maxlength="60" placeholder="اختيار 2" style="margin-bottom:8px">
+      <input class="input ao" maxlength="60" placeholder="اختيار 3 (اختياري)" style="margin-bottom:8px">
+      <input class="input ao" maxlength="60" placeholder="اختيار 4 (اختياري)">
+      <button class="btn full" id="aAdd">إضافة السؤال</button>
+      <p class="note" style="margin-top:14px">الأسئلة اللي إنت ضفتها:</p>
+      <div id="aList"></div>
+      <button class="btn danger full" id="aStop">⏹ إيقاف الجلسة الحالية</button>
+    </div>
+    <p class="msg" id="adminMsg" role="status"></p>
+    <button class="btn sec full" id="adminClose">إغلاق</button>
+  </div>
+</div>
+
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+
+/* ===== Supabase (نفس مشروع اللعبة) ===== */
+const SB='https://djgyhxmzjywvfmtgwrug.supabase.co/rest/v1';
+const KEY='sb_publishable_5ncUmXtThYkFbYvvJIR-Ng_p8oTxj4-';
+async function api(path,opt={}){
+  const r=await fetch(SB+path,{...opt,headers:{apikey:KEY,'Content-Type':'application/json',...(opt.headers||{})}});
+  const t=await r.text();
+  if(!r.ok)throw new Error('['+r.status+'] '+t);
+  return t?JSON.parse(t):null
+}
+const rpc=(fn,args)=>api('/rpc/'+fn,{method:'POST',body:JSON.stringify(args)});
+const ts=s=>String(s).replace(/(\.\d{3})\d+/,'$1');
+
+const LET=['أ','ب','ج','د'];
+let name=localStorage.getItem('q_player_name')||'';
+let G=null,offset=0,shownKey='',myVote=-1,myRound=0,finished=0,advTime=0,boardTime=0,early=0,banned=false;
+
+const weekKey=date=>{
+  const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());
+  d.setDate(d.getDate()-((d.getDay()+1)%7));
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
+};
+const week=weekKey(new Date());
+
+/* ===== الاسم والحظر ===== */
+function showName(){$('#vName').classList.remove('hidden');$('#vMain').classList.add('hidden')}
+function showMain(){
+  $('#vName').classList.add('hidden');$('#vMain').classList.remove('hidden');
+  $('#who').textContent=name;checkBan();refreshBoard();ping(null);poll()
+}
+$('#nameForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=$('#nameInput').value.trim();
+  if(!v)return;
+  name=v;localStorage.setItem('q_player_name',v);showMain()
+});
+$('#changeName').addEventListener('click',e=>{
+  e.preventDefault();localStorage.removeItem('q_player_name');name='';shownKey='';$('#nameInput').value='';showName()
+});
+async function checkBan(){
+  try{
+    const r=await api('/banned_players?select=reason&name=eq.'+encodeURIComponent(name.trim().toLowerCase()));
+    if(r&&r[0]){banned=true;$('#banReason').textContent=r[0].reason||'مخالفة قواعد اللعبة';$('#banModal').classList.add('on');return true}
+  }catch(e){}
+  return false
+}
+
+/* ===== ترتيب الأسبوع ===== */
+async function refreshBoard(){
+  boardTime=Date.now();
+  try{
+    const rows=await api('/scores?select=player,pts&week=eq.'+week+'&limit=1000');
+    const m={};
+    (rows||[]).forEach(g=>{const k=String(g.player).trim().toLowerCase();const o=m[k]||(m[k]={n:String(g.player).trim(),t:0});o.t+=Number(g.pts)||0});
+    const list=Object.values(m).sort((a,b)=>b.t-a.t).slice(0,5);
+    const ol=$('#board'),medals=['🥇','🥈','🥉'];ol.textContent='';
+    list.forEach((r,i)=>{const li=el('li');li.append(el('span','',(medals[i]||String(i+1))+' '+r.n),el('b','',r.t));ol.append(li)});
+    $('#boardEmpty').classList.toggle('hidden',list.length>0)
+  }catch(e){}
+}
+
+/* ===== شاشة الانتظار (جاهز) ===== */
+let lobby=null,pingTime=0;
+const lobbyMine=()=>!!(lobby&&lobby.players.some(x=>x.name.toLowerCase()===name.toLowerCase()&&x.ready));
+function paintLobby(){
+  const ul=$('#lobbyList');if(!ul)return;ul.textContent='';
+  const ps=lobby?lobby.players:[];
+  if(!ps.length)ul.append(el('li','','مفيش حد دلوقتي'));
+  ps.forEach(x=>{const li=el('li');li.append(el('span','',x.name),el('b','',x.ready?'✅ جاهز':'⏳ لسه'));ul.append(li)});
+  const b=$('#readyBtn');if(b)b.textContent=lobbyMine()?'مش جاهز':'جاهز ✅'
+}
+async function ping(ready){
+  pingTime=Date.now();
+  try{
+    const r=await rpc('quiz_ping',{p_player:name,p_ready:ready});
+    lobby=r;paintLobby();
+    if(!r.idle){shownKey='';poll()}
+  }catch(e){if(String(e.message).includes('banned'))checkBan()}
+}
+
+/* ===== حالة الجولة ===== */
+function setConn(ok,msg){$('#conn').textContent=ok?'🟢 متصل':'🔴 '+(msg||'مفيش اتصال')}
+async function poll(){
+  if($('#vMain').classList.contains('hidden'))return;
+  try{
+    const g=await rpc('quiz_get',{});
+    offset=Date.parse(ts(g.now))-Date.now();
+    G=g;setConn(true);render()
+  }catch(e){
+    console.error(e);
+    setConn(false,String(e.message).includes('quiz_get')?'شغّل ملف supabase-quiz.sql':'مفيش اتصال')
+  }
+}
+function phaseOf(g){
+  if(g.round===0)return{p:'idle'};
+  const now=Date.now()+offset,st=Date.parse(ts(g.started_at)),v=g.vote_secs*1000,r=g.reveal_secs*1000,el=now-st;
+  if(el<v)return{p:'vote',left:Math.max(0,Math.ceil((v-el)/1000)),frac:Math.max(0,1-el/v)};
+  if(el<v+r)return{p:'reveal',left:Math.ceil((v+r-el)/1000)};
+  return{p:g.left>0?'next':'idle'}
+}
+function setStage(...n){const s=$('#stage');s.textContent='';n.forEach(x=>s.append(x))}
+
+function render(){
+  if(!G||banned)return;
+  if(Date.now()-pingTime>2500)ping(null);
+  const ph=phaseOf(G);
+  if(ph.p==='reveal'&&!G.counts){if(Date.now()-early>400){early=Date.now();poll()}return}
+  const key=G.round+':'+ph.p;
+  if(key!==shownKey){
+    shownKey=key;
+    if(ph.p==='vote')buildVote(G);
+    else if(ph.p==='reveal')buildReveal(G);
+    else if(ph.p==='next')buildNext();
+    else buildIdle(G)
+  }
+  if(ph.p==='vote'){
+    const t=$('#tLeft'),b=$('#tBar'),c=$('#vCount');
+    if(t)t.textContent=ph.left;if(b)b.style.width=(ph.frac*100)+'%';if(c)c.textContent=G.voters
+  }
+  if(ph.p==='next'&&Date.now()-advTime>1500){advTime=Date.now();rpc('quiz_advance',{p_player:name,p_start:false}).then(poll).catch(()=>{})}
+  if(ph.p==='reveal'&&finished!==G.round){
+    finished=G.round;
+    rpc('quiz_finish',{p_round:G.round}).then(()=>setTimeout(refreshBoard,800)).catch(()=>{})
+  }
+  if(ph.p==='idle'&&Date.now()-boardTime>20000)refreshBoard()
+}
+
+function buildVote(g){
+  if(myRound!==g.round){myRound=g.round;myVote=-1}
+  const box=el('div','panel');
+  const top=el('div','qtop');
+  const tp=el('span','pill','⏳ ');const tl=el('strong','','');tl.id='tLeft';tp.append(tl);
+  const vp=el('span','pill','🗳️ ');const vc=el('strong','','0');vc.id='vCount';vp.append(vc);
+  top.append(el('span','pill','السؤال '+g.round),tp,vp);
+  const bar=el('div','bar');const fill=el('i');fill.id='tBar';bar.append(fill);
+  box.append(top,bar,el('div','question',g.question));
+  g.options.forEach((o,i)=>{
+    const b=el('button','opt'+(myVote===i?' sel':''));
+    b.type='button';b.append(el('span','badge',LET[i]),el('span','txt',o));
+    b.onclick=()=>castVote(i);box.append(b)
+  });
+  const m=el('p','msg','اختار إجابة. اللي هيختاروا اللي عليه أغلبية بياخدوا ٥٠ نقطة.');m.id='vMsg';
+  box.append(m);setStage(box)
+}
+async function castVote(i){
+  if(banned||!G)return;
+  myVote=i;myRound=G.round;
+  document.querySelectorAll('#stage .opt').forEach((b,k)=>b.classList.toggle('sel',k===i));
+  try{
+    await rpc('quiz_vote',{p_round:G.round,p_player:name,p_choice:i});
+    $('#vMsg').textContent='✅ اتسجل صوتك. تقدر تغيّره لحد ما الوقت يخلص.'
+  }catch(e){
+    if(String(e.message).includes('banned'))checkBan();
+    else $('#vMsg').textContent='⚠️ الصوت ماتسجلش (ممكن الوقت خلص).'
+  }
+}
+
+function buildReveal(g){
+  const counts=g.counts||{},names=g.names||{};
+  const nums=g.options.map((_,i)=>Number(counts[i]||0));
+  const total=nums.reduce((a,b)=>a+b,0),top=Math.max(0,...nums);
+  const winners=nums.map((n,i)=>(top>0&&n===top)?i:-1).filter(i=>i>=0);
+  const win=(total>=2&&winners.length===1)?winners[0]:-1;
+  const box=el('div','panel');
+  const t=el('div','qtop');t.append(el('span','pill','السؤال '+g.round),el('span','pill','النتيجة'));
+  box.append(t,el('div','question',g.question));
+  g.options.forEach((o,i)=>{
+    const b=el('div','opt'+(i===win?' win':''));
+    const f=el('div','fill');f.style.width=(total?nums[i]/total*100:0)+'%';
+    b.append(f,el('span','badge',LET[i]),el('span','txt',o),el('span','cnt',nums[i]));box.append(b);
+    const ns=names[i]||[];if(ns.length)box.append(el('div','names',ns.join('، ')))
+  });
+  const mine=win>=0&&(names[win]||[]).some(n=>String(n).toLowerCase()===name.toLowerCase());
+  let txt,cls='result';
+  if(total<2)txt='محتاجين صوتين على الأقل عشان تتحسب نقط 🙂';
+  else if(win<0)txt='تعادل! محدش كسب نقط في السؤال ده 🤝';
+  else if(mine){txt='🎉 إنت مع الأغلبية! +50 نقطة';cls+=' good'}
+  else txt='الأغلبية اختارت: '+g.options[win]+'. المرة الجاية! 😅';
+  box.append(el('div',cls,txt),el('p','msg','السؤال الجاي بعد ثواني…'));
+  setStage(box)
+}
+function buildNext(){const p=el('div','panel');p.append(el('div','big','⏭️'),el('p','msg','السؤال الجاي…'));setStage(p)}
+function buildIdle(g){
+  const p=el('div','panel');
+  p.append(el('div','big','🎯'));
+  p.append(el('h2','',g.round>0?'الجلسة خلصت!':'جاهزين؟'));
+  p.append(el('p','note','١٠ أسئلة. كل واحد يصوّت من موبايله، والاختيار اللي عليه أكتر أصوات هو الفايز، واللي اختاروه بياخدوا ٥٠ نقطة في ترتيب الأسبوع. لازم صوتين على الأقل، ولو حصل تعادل محدش بياخد نقط.'));
+  p.append(el('p','note','الجلسة بتبدأ لما كل اللاعبين اللي هنا يدوسوا «جاهز» (٢ على الأقل).'));
+  const ul=el('ul','board');ul.id='lobbyList';p.append(ul);
+  const b=el('button','btn full','جاهز ✅');b.type='button';b.id='readyBtn';
+  b.onclick=async()=>{if(await checkBan())return;b.disabled=true;await ping(!lobbyMine());b.disabled=false};
+  p.append(b);refreshBoard();setStage(p);paintLobby()
+}
+
+/* ===== لوحة الأدمن (اضغط على الأيقونة ٥ مرات) ===== */
+let pin='',taps=0,tapT=0;
+$('#logo').addEventListener('click',()=>{
+  taps++;clearTimeout(tapT);tapT=setTimeout(()=>taps=0,2500);
+  if(taps>=5){taps=0;$('#adminModal').classList.add('on')}
+});
+async function loadList(){
+  try{
+    const rows=await api('/quiz_questions?source=eq.admin&active=eq.true&select=id,question&order=id.desc&limit=50');
+    const box=$('#aList');box.textContent='';
+    if(!rows||!rows.length){box.append(el('p','note','لسه مفيش أسئلة من عندك.'));return}
+    rows.forEach(r=>{
+      const d=el('div','arow');d.append(el('span','',r.question));
+      const b=el('button','btn danger','مسح');b.type='button';
+      b.onclick=async()=>{try{await rpc('admin_delete_question',{p_pin:pin,p_id:r.id});loadList()}catch(e){$('#adminMsg').textContent='فشل المسح'}};
+      d.append(b);box.append(d)
+    })
+  }catch(e){$('#adminMsg').textContent='مش قادر أحمّل القايمة'}
+}
+$('#adminEnter').onclick=async()=>{
+  const p=$('#adminPin').value;$('#adminMsg').textContent='بنتأكد…';
+  try{
+    if(await rpc('admin_check',{p_pin:p})===true){
+      pin=p;$('#adminMsg').textContent='';
+      $('#adminLogin').classList.add('hidden');$('#adminBody').classList.remove('hidden');loadList()
+    }else $('#adminMsg').textContent='الرقم السري غلط'
+  }catch(e){$('#adminMsg').textContent='مش قادر أوصل للسيرفر'}
+};
+$('#aAdd').onclick=async()=>{
+  const q=$('#aq').value.trim(),opts=[...document.querySelectorAll('.ao')].map(i=>i.value.trim()).filter(Boolean);
+  if(q.length<3||opts.length<2){$('#adminMsg').textContent='اكتب السؤال واختيارين على الأقل';return}
+  try{
+    await rpc('admin_add_question',{p_pin:pin,p_question:q,p_options:opts});
+    $('#aq').value='';document.querySelectorAll('.ao').forEach(i=>i.value='');
+    $('#adminMsg').textContent='✅ اتضاف السؤال';loadList()
+  }catch(e){console.error(e);$('#adminMsg').textContent='فشلت الإضافة'}
+};
+$('#aStop').onclick=async()=>{
+  try{await rpc('admin_quiz_stop',{p_pin:pin});$('#adminMsg').textContent='تم إيقاف الجلسة';shownKey='';poll()}
+  catch(e){$('#adminMsg').textContent='فشل الإيقاف'}
+};
+$('#adminClose').onclick=()=>{
+  $('#adminModal').classList.remove('on');pin='';$('#adminPin').value='';
+  $('#adminLogin').classList.remove('hidden');$('#adminBody').classList.add('hidden');$('#adminMsg').textContent=''
+};
+
+/* ===== التشغيل ===== */
+setInterval(render,300);
+setInterval(poll,1200);
+if(name)showMain();else showName();
+})();
+<\/script>
+</body>
+</html>
+
+</script>
+<script type="text/plain" id="g-race">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a0f1f">
+<title>سباق الدرجات النارية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Changa:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#140a14;--gold:#f2b94b;--gold2:#ffe2a0;--text:#f7f1e7;--muted:#b9a9b4;--line:rgba(255,255,255,.14);--fire:#ff7a1a;--red:#ffb1b5}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif}
+body{min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#4a2230,#1f0f1d 45%,#0c060c)}
+button,input{font:inherit}button{cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+h1,h2{font-family:'Changa',sans-serif;margin:0}
+.app{width:min(720px,100%);margin:auto;padding:16px 14px 32px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.logo{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#ffb36b,#e0551c);color:#2a0d00;font-size:24px;user-select:none;flex:none}
+.top h1{font-size:clamp(22px,5vw,30px)}
+.note{color:var(--muted);font-size:12px;line-height:1.9;margin:3px 0}
+.panel{background:linear-gradient(145deg,#2a1624,#150a14);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 18px 50px #0004}
+.panel h2{font-size:22px;margin-bottom:10px;color:var(--gold2)}
+.hidden{display:none!important}
+.label{display:block;font-size:13px;font-weight:800;margin:12px 0 7px}
+.input{width:100%;background:#0e070e;border:1px solid #ffffff22;color:var(--text);border-radius:12px;padding:12px 13px}
+.btn{border:1px solid #ffb36b55;border-radius:13px;padding:11px 16px;font-weight:800;background:linear-gradient(135deg,#ffb36b,#e0551c);color:#2a0d00;text-decoration:none;display:inline-block;text-align:center}
+.btn:active{transform:translateY(1px)}
+.btn.sec{background:#ffffff0a;color:var(--text);border-color:var(--line)}
+.btn.danger{background:#ff626b22;color:var(--red);border-color:#ff626b66}
+.btn.full{width:100%;margin-top:12px;display:block}
+.btn:disabled{opacity:.45}
+.meta{display:flex;justify-content:space-between;gap:8px;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.board{list-style:none;padding:0;margin:0}
+.board li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 3px;border-bottom:1px solid var(--line);font-weight:800}
+.board li:last-child{border:0}
+.board li.me{color:var(--gold2)}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-inline-end:8px;vertical-align:middle}
+.board b{font:800 20px 'Changa',sans-serif;color:var(--gold2);white-space:nowrap}
+.msg{min-height:20px;font-size:13px;color:var(--gold2);margin:8px 0;text-align:center}
+.stagebox{position:relative;height:min(58vh,520px);min-height:300px;background:#1a0f1f;border:1px solid #ffffff22;border-radius:18px;overflow:hidden}
+.stagebox canvas{display:block;width:100%;height:100%}
+.ov{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:10px}
+.pill{background:#10080fcc;border:1px solid #ffffff22;border-radius:12px;padding:5px 10px;font-size:12px;font-weight:800;display:inline-block}
+.pill strong{color:var(--gold2)}
+.row2{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.bar{height:7px;border-radius:99px;background:#ffffff28;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff7a1a,#ffe28a)}
+#cdown{position:absolute;inset:0;display:grid;place-items:center;font:800 clamp(60px,18vw,120px) 'Changa',sans-serif;color:#fff;text-shadow:0 0 30px #ff7a1a,0 4px 14px #000;pointer-events:none}
+#rmsg{align-self:center;font:800 clamp(20px,5vw,30px) 'Changa',sans-serif;text-shadow:0 3px 12px #000;color:#fff1cc;text-align:center}
+.ctrls{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:12px}
+.climb{font:800 26px 'Changa',sans-serif;padding:20px;touch-action:manipulation;user-select:none}
+.kick{font-size:18px;touch-action:manipulation}
+.modal{display:none;position:fixed;inset:0;z-index:50;background:#05080dcc;padding:16px;overflow:auto;place-items:center}
+.modal.on{display:grid}
+.card{width:min(520px,100%);background:linear-gradient(145deg,#2a1624,#10080f);border:1px solid #ffb36b66;border-radius:22px;padding:20px}
+.card h2{color:var(--gold2);margin:0 0 8px}
+.ban .card{text-align:center;border-color:#ff626b88}
+.ban h2{color:var(--red)}
+.reasonbox{margin:12px 0;padding:12px;border-radius:14px;background:#ff626b14;border:1px solid #ff626b55;font-size:17px;font-weight:800;overflow-wrap:anywhere}
+.trophy{font-size:64px;text-align:center}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="logo" id="logo">🔥</div>
+  <div><h1>سباق الدرجات النارية</h1><p class="note">اطلع الأول، واحترس من النار</p></div>
+  <a class="btn sec" href="#" onclick="parent.goHub();return false" style="margin-inline-start:auto">🏠 الألعاب</a>
+</header>
+
+<section id="vName" class="hidden">
+  <div class="panel">
+    <h2>اسمك إيه؟</h2>
+    <p class="note">نفس الاسم اللي بتلعب بيه في باقي الألعاب.</p>
+    <form id="nameForm">
+      <label class="label" for="nameInput">الاسم</label>
+      <input class="input" id="nameInput" maxlength="20" autocomplete="off" required>
+      <button class="btn full" type="submit">يلا نلعب ←</button>
+    </form>
+  </div>
+</section>
+
+<section id="vLobby" class="hidden">
+  <div class="meta"><span>اللاعب: <strong id="who" style="color:var(--gold2)"></strong> · <a href="#" id="changeName" style="color:var(--muted)">غيّر</a></span><span id="conn"></span></div>
+  <div class="panel">
+    <h2>🔥 جاهز للسباق؟</h2>
+    <p class="note">اطلع الدرجات بأسرع ما تقدر (دوس على زرار الطلوع). فيه درجات نارية بتولع وتطفي، فاستنى لحد ما تطفي قبل ما تطلع عليها وإلا هترجع ٣ درجات. لو لاعب في المسار اللي جنبك قريب منك، اركله فيقع ٤ درجات.</p>
+    <p class="note">السباق بيبدأ لما كل اللاعبين يدوسوا «جاهز» (٢ على الأقل، ١٠ بالكتير). أول ٤ مراكز بيجيبوا نقط في ترتيب الأسبوع: ١٠٠ و٧٠ و٥٠ و٣٠، والباقي ١٥.</p>
+    <ul class="board" id="lobbyList"></ul>
+    <p class="msg" id="lobbyMsg" role="status"></p>
+    <button class="btn full" id="btnJoin">انضم للسباق</button>
+    <button class="btn full hidden" id="btnReady">جاهز ✅</button>
+    <button class="btn sec full hidden" id="btnLeave">اخرج</button>
+  </div>
+</section>
+
+<section id="vRace" class="hidden">
+  <div class="stagebox" id="stagebox">
+    <canvas id="cv" aria-label="سباق الدرجات النارية ثلاثي الأبعاد"></canvas>
+    <div class="ov">
+      <div class="row2">
+        <div><span class="pill" id="hudRank"></span> <span class="pill">⏱ <strong id="hudTime">90</strong></span><div class="bar"><i id="hudBar"></i></div></div>
+        <span class="pill" id="hudTop" style="white-space:pre-line;text-align:right"></span>
+      </div>
+      <div id="rmsg"></div>
+      <div class="row2"><span class="pill">الدرجة <strong id="hudSteps">0</strong></span><span class="pill" id="hudSpec"></span></div>
+    </div>
+    <div id="cdown" class="hidden"></div>
+  </div>
+  <div class="ctrls" id="ctrls">
+    <button class="btn climb" id="climbBtn" type="button">اطلع! 🔥</button>
+    <button class="btn sec kick" id="kickBtn" type="button">🦵 ركلة</button>
+  </div>
+  <p class="note" style="text-align:center">مسطرة: Space اطلع، K ركلة. الركلة بتضرب اللي في المسار اللي جنبك لو قريب منك.</p>
+</section>
+
+<section id="vDone" class="hidden">
+  <div class="panel">
+    <div class="trophy">🏆</div>
+    <h2 id="doneTitle" style="text-align:center;font-size:30px"></h2>
+    <p class="note" id="doneSub" style="text-align:center;font-size:14px"></p>
+    <ul class="board" id="doneList"></ul>
+    <button class="btn full" id="newBtn">سباق جديد</button>
+    <a class="btn sec full" href="#" onclick="parent.goHub();return false">🏠 الألعاب</a>
+  </div>
+</section>
+</div>
+
+<div class="modal ban" id="banModal" role="alertdialog" aria-modal="true" aria-labelledby="banTitle" style="z-index:100">
+  <div class="card">
+    <div style="font-size:60px;text-align:center">🚫</div>
+    <h2 id="banTitle">تم حظرك من اللعبة</h2>
+    <p class="note" style="font-size:15px">سبب الحظر:</p>
+    <div class="reasonbox" id="banReason"></div>
+    <p class="note">لو شايف إن ده غلط كلّم صاحب اللعبة.</p>
+  </div>
+</div>
+
+<div class="modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminTitle" style="z-index:90">
+  <div class="card">
+    <h2 id="adminTitle">🛡️ لوحة الأدمن</h2>
+    <div id="adminLogin">
+      <label class="label" for="adminPin">الرقم السري</label>
+      <input class="input" id="adminPin" type="password" autocomplete="off">
+      <button class="btn full" id="adminEnter">دخول</button>
+    </div>
+    <div id="adminBody" class="hidden">
+      <button class="btn danger full" id="aReset">إعادة تعيين السباق (يرجع لشاشة الانتظار)</button>
+    </div>
+    <p class="msg" id="adminMsg" role="status"></p>
+    <button class="btn sec full" id="adminClose">إغلاق</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"><\/script>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+
+/* ===== Supabase ===== */
+const SB='https://djgyhxmzjywvfmtgwrug.supabase.co/rest/v1';
+const KEY='sb_publishable_5ncUmXtThYkFbYvvJIR-Ng_p8oTxj4-';
+async function api(path,opt={}){
+  const r=await fetch(SB+path,{...opt,headers:{apikey:KEY,'Content-Type':'application/json',...(opt.headers||{})}});
+  const t=await r.text();
+  if(!r.ok)throw new Error('['+r.status+'] '+t);
+  return t?JSON.parse(t):null
+}
+const rpc=(fn,args)=>api('/rpc/'+fn,{method:'POST',body:JSON.stringify(args)});
+const ts=s=>String(s).replace(/(\.\d{3})\d+/,'$1');
+
+const COLORS=['#ff5d5d','#ffb347','#ffe14d','#7ee3a2','#4dd0ff','#6b8bff','#b68bff','#ff7ad9','#c0c7d1','#a0e85d'];
+const POINTS=[100,70,50,30];
+const SH=.5,SD=1.2,LW=1.7;
+const isFire=k=>k>=6&&k%5===1;
+
+let name=localStorage.getItem('q_player_name')||'';
+let G=null,offset=0,banned=false,round=0,pollT=0,pingT=0;
+let steps=0,stunUntil=0,lastTap=0,kickUntil=0,finishedLocal=false,adopted=false,sending=false,msgT=0;
+let scene,camera,renderer,sceneBuilt=false,loopOn=false,fireRows=[],av={},last=0,camLook=null;
+
+const sNow=()=>Date.now()+offset;
+const startMs=()=>Date.parse(ts(G.start_at));
+const lit=(k,t)=>{const ph=(((k*2654435761)^(G.seed*40503))>>>0)%1000/1000;return Math.floor(t/1200+ph*2)%2===0};
+const mePlayer=()=>G&&G.players.find(p=>p.name.toLowerCase()===name.toLowerCase());
+
+function showView(id){
+  ['vName','vLobby','vRace','vDone'].forEach(v=>$('#'+v).classList.toggle('hidden',v!==id))
+}
+function setConn(ok,msg){$('#conn').textContent=ok?'🟢 متصل':'🔴 '+(msg||'مفيش اتصال')}
+
+/* ===== الاسم والحظر ===== */
+$('#nameForm').addEventListener('submit',e=>{
+  e.preventDefault();const v=$('#nameInput').value.trim();if(!v)return;
+  name=v;localStorage.setItem('q_player_name',v);enter()
+});
+$('#changeName').addEventListener('click',e=>{
+  e.preventDefault();localStorage.removeItem('q_player_name');name='';$('#nameInput').value='';showView('vName')
+});
+async function checkBan(){
+  try{
+    const r=await api('/banned_players?select=reason&name=eq.'+encodeURIComponent(name.trim().toLowerCase()));
+    if(r&&r[0]){banned=true;$('#banReason').textContent=r[0].reason||'مخالفة قواعد اللعبة';$('#banModal').classList.add('on');return true}
+  }catch(e){}
+  return false
+}
+function enter(){$('#who').textContent=name;checkBan();poll()}
+
+/* ===== متابعة الحالة ===== */
+async function poll(){
+  clearTimeout(pollT);
+  if(!name){return}
+  try{
+    const g=await rpc('race_get',{});
+    offset=Date.parse(ts(g.now))-Date.now();G=g;setConn(true);onState()
+  }catch(e){
+    console.error(e);
+    setConn(false,String(e.message).includes('race_get')?'شغّل ملف supabase-games.sql':'مفيش اتصال')
+  }
+  pollT=setTimeout(poll,G&&G.phase==='racing'?350:1000)
+}
+function resetLocal(){
+  steps=0;stunUntil=0;finishedLocal=false;adopted=false;kickUntil=0;
+  Object.values(av).forEach(a=>a.disp=0);
+  $('#cdown').classList.add('hidden');$('#rmsg').textContent=''
+}
+function onState(){
+  if(!G||banned)return;
+  if(G.round!==round){round=G.round;resetLocal()}
+  if(G.phase==='lobby'){showView('vLobby');renderLobby()}
+  else if(G.phase==='racing'){showView('vRace');startRace()}
+  else{showView('vDone');renderDone()}
+}
+
+/* ===== شاشة الانتظار ===== */
+function renderLobby(){
+  const me=mePlayer(),ul=$('#lobbyList');ul.textContent='';
+  G.players.forEach(p=>{
+    const li=el('li',p.name.toLowerCase()===name.toLowerCase()?'me':'');
+    const l=el('span');const d=el('i','dot');d.style.background=COLORS[p.lane];
+    l.append(d,document.createTextNode(p.name));
+    li.append(l,el('b','',p.ready?'✅ جاهز':'⏳ لسه'));ul.append(li)
+  });
+  if(!G.players.length)ul.append(el('li','','مفيش لاعبين لسه، انضم إنت الأول'));
+  $('#btnJoin').classList.toggle('hidden',!!me);
+  $('#btnReady').classList.toggle('hidden',!me);
+  $('#btnLeave').classList.toggle('hidden',!me);
+  if(me){$('#btnReady').textContent=me.ready?'مش جاهز':'جاهز ✅';
+    if(Date.now()-pingT>2000){pingT=Date.now();rpc('race_join',{p_player:name}).catch(()=>{})}}
+}
+function lobbyErr(e){
+  const m=String(e.message);
+  if(m.includes('banned'))checkBan();
+  else if(m.includes('room full'))$('#lobbyMsg').textContent='الغرفة مليانة (١٠ لاعبين).';
+  else if(m.includes('race running'))$('#lobbyMsg').textContent='فيه سباق شغال دلوقتي.';
+  else $('#lobbyMsg').textContent='⚠️ حصلت مشكلة، جرّب تاني.'
+}
+$('#btnJoin').onclick=async()=>{
+  if(await checkBan())return;$('#lobbyMsg').textContent='';
+  try{await rpc('race_join',{p_player:name});pingT=Date.now();poll()}catch(e){lobbyErr(e)}
+};
+$('#btnReady').onclick=async()=>{
+  const me=mePlayer();if(!me)return;$('#lobbyMsg').textContent='';
+  try{await rpc('race_ready',{p_player:name,p_ready:!me.ready});poll()}catch(e){lobbyErr(e)}
+};
+$('#btnLeave').onclick=async()=>{try{await rpc('race_leave',{p_player:name});poll()}catch(e){}};
+
+/* ===== المشهد ثلاثي الأبعاد ===== */
+function mat(c,r=.85,m=0){return new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m})}
+function buildScene(){
+  const F=G.finish;
+  scene=new THREE.Scene();
+  scene.background=new THREE.Color('#1a0f1f');
+  scene.fog=new THREE.Fog('#2a1018',20,90);
+  camera=new THREE.PerspectiveCamera(58,1,.1,200);
+  renderer=new THREE.WebGLRenderer({canvas:$('#cv'),antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+  scene.add(new THREE.HemisphereLight('#ffd9b0','#4a1a10',1.4));
+  const sun=new THREE.DirectionalLight('#ffb36b',2);sun.position.set(-8,20,10);scene.add(sun);
+  const glow=new THREE.PointLight('#ff6a1a',60,60);glow.position.set(0,2,4);scene.add(glow);
+
+  const lava=new THREE.Mesh(new THREE.PlaneGeometry(220,260),new THREE.MeshBasicMaterial({color:'#ff4a10'}));
+  lava.rotation.x=-Math.PI/2;lava.position.set(0,-.8,-F*SD/2);scene.add(lava);
+
+  const W=LW*10,m1=mat('#3a2a33'),m2=mat('#4a3641');
+  for(let k=0;k<=F;k++){
+    const b=new THREE.Mesh(new THREE.BoxGeometry(W,SH,SD),k%2?m1:m2);
+    b.position.set(0,k*SH-SH/2,-k*SD);scene.add(b)
+  }
+  for(let l=1;l<10;l++){
+    const ln=new THREE.Mesh(new THREE.BoxGeometry(.05,.02,F*SD+2),mat('#6b5560'));
+    ln.position.set((l-5)*LW,.01,-F*SD/2);scene.add(ln)
+  }
+  for(let k=1;k<=F;k++)if(isFire(k)){
+    const g=new THREE.Group();g.position.set(0,k*SH+.02,-k*SD);
+    const plane=new THREE.Mesh(new THREE.PlaneGeometry(W,SD*.9),new THREE.MeshBasicMaterial({color:'#5a1b12'}));
+    plane.rotation.x=-Math.PI/2;g.add(plane);
+    const cones=[];
+    for(let i=0;i<12;i++){
+      const c=new THREE.Mesh(new THREE.ConeGeometry(.35,1.1,6),new THREE.MeshBasicMaterial({color:i%2?'#ffd24a':'#ff6a1a'}));
+      c.position.set((i-5.5)*(W/12),.55,0);g.add(c);cones.push(c)
+    }
+    scene.add(g);fireRows.push({k,plane,cones})
+  }
+  const top=new THREE.Mesh(new THREE.BoxGeometry(W,.6,4),mat('#d8a92e',.4,.4));
+  top.position.set(0,F*SH+.1,-F*SD-2.4);scene.add(top);
+  const flag=new THREE.Mesh(new THREE.BoxGeometry(.2,5,.2),mat('#ffe28a',.3,.5));
+  flag.position.set(0,F*SH+3,-F*SD-2.4);scene.add(flag);
+  camLook=new THREE.Vector3(0,2,-6);
+  sceneBuilt=true
+}
+function resize(){
+  if(!renderer)return;
+  const b=$('#stagebox'),w=Math.max(1,b.clientWidth),h=Math.max(1,b.clientHeight);
+  renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()
+}
+window.addEventListener('resize',resize);
+
+function labelTex(text,color){
+  const c=document.createElement('canvas');c.width=256;c.height=64;const x=c.getContext('2d');
+  x.fillStyle='rgba(0,0,0,.6)';x.fillRect(0,0,256,64);
+  x.fillStyle=color;x.font='bold 34px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(text,128,34);
+  return new THREE.CanvasTexture(c)
+}
+function getAv(lane){
+  if(av[lane])return av[lane];
+  const g=new THREE.Group(),col=COLORS[lane];
+  const body=new THREE.Mesh(new THREE.CapsuleGeometry(.32,.7,4,8),mat(col,.6));body.position.y=1.0;
+  const head=new THREE.Mesh(new THREE.SphereGeometry(.26,12,10),mat('#c68a5a'));head.position.y=1.8;
+  g.add(body,head);
+  const legs=[-1,1].map(d=>{const l=new THREE.Mesh(new THREE.BoxGeometry(.16,.55,.2),mat('#222233'));l.position.set(d*.15,.3,0);g.add(l);return l});
+  scene.add(g);
+  av[lane]={g,legs,label:null,name:'',disp:0,body};
+  return av[lane]
+}
+function setLabel(a,text,color){
+  if(a.label){a.g.remove(a.label);a.label.material.map.dispose();a.label.material.dispose()}
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTex(text,color),transparent:true,depthTest:false}));
+  sp.scale.set(2.4,.6,1);sp.position.y=2.6;a.g.add(sp);a.label=sp
+}
+
+function frame(now){
+  if(!G||G.phase!=='racing'){loopOn=false;return}
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  const t=sNow();
+  fireRows.forEach(r=>{
+    const on=lit(r.k,t);
+    r.plane.material.color.set(on?'#ff7a1a':'#5a1b12');
+    r.cones.forEach((c,i)=>{c.visible=on;if(on)c.scale.y=.7+.5*Math.abs(Math.sin(t/130+i+r.k))})
+  });
+  const k=name.toLowerCase(),seen={};let camS=0,camX=0,found=false;
+  G.players.forEach(p=>{
+    const a=getAv(p.lane);seen[p.lane]=1;a.g.visible=true;
+    if(a.name!==p.name){a.name=p.name;setLabel(a,p.name,COLORS[p.lane])}
+    const mine=p.name.toLowerCase()===k;
+    a.disp+=((mine?steps:p.steps)-a.disp)*Math.min(1,dt*(mine?18:9));
+    const x=(p.lane-4.5)*LW;
+    a.g.position.set(x,a.disp*SH,-a.disp*SD);
+    const stunned=mine?Date.now()<stunUntil:p.stun_ms>0;
+    a.g.rotation.z=stunned?Math.sin(now/55)*.3:0;
+    a.legs[0].rotation.x=Math.sin(a.disp*Math.PI)*.9;
+    a.legs[1].rotation.x=-Math.sin(a.disp*Math.PI)*.9;
+    if(mine){camS=a.disp;camX=x;found=true}
+  });
+  Object.keys(av).forEach(l=>{if(!seen[l])av[l].g.visible=false});
+  if(!found){
+    const lead=G.players.reduce((m,p)=>p.steps>m.steps?p:m,{steps:0,lane:4.5});
+    camS=lead.steps;camX=(lead.lane-4.5)*LW
+  }
+  const tp=new THREE.Vector3(camX*.3,camS*SH+5.5,-camS*SD+9);
+  camera.position.lerp(tp,Math.min(1,dt*6));
+  camLook.lerp(new THREE.Vector3(camX*.5,camS*SH+2,-camS*SD-7),Math.min(1,dt*6));
+  camera.lookAt(camLook);
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame)
+}
+
+function startRace(){
+  if(!sceneBuilt){try{buildScene()}catch(e){console.error(e);$('#rmsg').textContent='المتصفح مش قادر يشغّل 3D';return}}
+  resize();
+  const me=mePlayer();
+  if(!adopted&&me){steps=Number(me.steps)||0;adopted=true}
+  $('#ctrls').classList.toggle('hidden',!me);
+  $('#hudSpec').textContent=me?'':'👀 بتتفرج';
+  if(!loopOn){
+    loopOn=true;last=performance.now();
+    camera.position.set(0,5.5,9);camLook.set(0,2,-6);
+    requestAnimationFrame(frame)
+  }
+}
+
+/* ===== اللعب ===== */
+function showMsg(t){
+  $('#rmsg').textContent=t;clearTimeout(msgT);msgT=setTimeout(()=>{$('#rmsg').textContent=''},1400)
+}
+function climb(){
+  if(!G||G.phase!=='racing'||banned||!mePlayer()||finishedLocal)return;
+  const t=Date.now();
+  if(sNow()<startMs()||t<stunUntil||t-lastTap<95)return;
+  lastTap=t;steps=Math.min(G.finish,steps+1);
+  if(isFire(steps)&&lit(steps,sNow())){
+    steps=Math.max(0,steps-3);stunUntil=t+900;showMsg('🔥 اتحرقت! رجعت ٣ درجات')
+  }
+}
+async function kick(){
+  const t=Date.now();
+  if(!G||G.phase!=='racing'||banned||!mePlayer()||finishedLocal||t<kickUntil||t<stunUntil||sNow()<startMs())return;
+  kickUntil=t+3000;
+  try{
+    const r=await rpc('race_kick',{p_player:name});
+    showMsg(r.hit?'🦵 ركلت '+r.hit+'!':(r.reason==='cooldown'?'استنى شوية':'مفيش حد قريب منك'))
+  }catch(e){}
+}
+$('#climbBtn').addEventListener('pointerdown',e=>{e.preventDefault();climb()});
+$('#kickBtn').addEventListener('pointerdown',e=>{e.preventDefault();kick()});
+document.addEventListener('keydown',e=>{
+  if(!G||G.phase!=='racing'||e.target.tagName==='INPUT')return;
+  if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();if(!e.repeat)climb()}
+  else if(e.code==='KeyK'){e.preventDefault();kick()}
+});
+
+async function syncTick(){
+  if(!G||G.phase!=='racing'||!mePlayer()||sending||banned||sNow()<startMs())return;
+  sending=true;const sent=steps;
+  try{
+    const r=await rpc('race_sync',{p_player:name,p_steps:sent});
+    if(typeof r.steps==='number'&&r.steps<sent){
+      const lost=sent-r.steps;steps=Math.max(0,steps-lost);
+      if(r.stun_ms>0&&lost>=3)showMsg('🦵 اتركلت!')
+    }
+    if(r.stun_ms>0)stunUntil=Math.max(stunUntil,Date.now()+r.stun_ms);
+    if(r.done&&!finishedLocal){finishedLocal=true;showMsg('🏁 وصلت!')}
+  }catch(e){if(String(e.message).includes('banned'))checkBan()}
+  sending=false
+}
+setInterval(syncTick,250);
+setInterval(()=>{if(G&&G.phase==='racing')rpc('race_finalize',{}).then(poll).catch(()=>{})},2000);
+
+setInterval(()=>{
+  if(!G||G.phase!=='racing')return;
+  const d=(startMs()-sNow())/1000,cd=$('#cdown');
+  if(d>0){cd.textContent=Math.ceil(d);cd.classList.remove('hidden')}
+  else if(d>-.8){cd.textContent='يلا! 🔥';cd.classList.remove('hidden')}
+  else cd.classList.add('hidden');
+  const k=name.toLowerCase();
+  const arr=G.players.map(p=>({n:p.name,s:p.name.toLowerCase()===k?steps:Number(p.steps),done:p.done,place:p.place}));
+  const sc=p=>p.done?1000-(p.place||99):p.s;
+  arr.sort((a,b)=>sc(b)-sc(a));
+  const idx=arr.findIndex(p=>p.n.toLowerCase()===k);
+  $('#hudRank').textContent=idx>=0?'المركز '+(idx+1)+' من '+arr.length:'المتصدرين';
+  $('#hudTop').textContent=arr.slice(0,3).map((p,i)=>(i+1)+') '+p.n).join('\n');
+  $('#hudSteps').textContent=Math.floor(steps)+' / '+G.finish;
+  $('#hudBar').style.width=Math.min(100,steps/G.finish*100)+'%';
+  $('#hudTime').textContent=Math.max(0,Math.ceil(G.max_secs-Math.max(0,-d)));
+  const kb=$('#kickBtn'),cdk=Math.ceil((kickUntil-Date.now())/1000);
+  kb.textContent=cdk>0?'🦵 '+cdk:'🦵 ركلة'
+},150);
+
+/* ===== النتيجة ===== */
+function renderDone(){
+  const ps=G.players.slice().sort((a,b)=>(a.place||99)-(b.place||99));
+  const ul=$('#doneList');ul.textContent='';
+  ps.forEach(p=>{
+    const li=el('li',p.name.toLowerCase()===name.toLowerCase()?'me':'');
+    const l=el('span');const d=el('i','dot');d.style.background=COLORS[p.lane];
+    l.append(d,document.createTextNode((['🥇','🥈','🥉'][p.place-1]||(p.place+'.'))+' '+p.name));
+    const got=p.done||Number(p.steps)>0;
+    li.append(l,el('b','',got?'+'+(POINTS[p.place-1]||15):'—'));ul.append(li)
+  });
+  const me=ps.find(p=>p.name.toLowerCase()===name.toLowerCase());
+  $('#doneTitle').textContent=ps.length?ps[0].name+' كسب السباق!':'السباق خلص';
+  $('#doneSub').textContent=me?'مركزك: '+me.place+'. النقط اتضافت لترتيب الأسبوع.':'النقط اتضافت لترتيب الأسبوع.'
+}
+$('#newBtn').onclick=async()=>{try{await rpc('race_new',{p_player:name});poll()}catch(e){}};
+
+/* ===== لوحة الأدمن (اضغط على الأيقونة ٥ مرات) ===== */
+let pin='',taps=0,tapT=0;
+$('#logo').addEventListener('click',()=>{
+  taps++;clearTimeout(tapT);tapT=setTimeout(()=>taps=0,2500);
+  if(taps>=5){taps=0;$('#adminModal').classList.add('on')}
+});
+$('#adminEnter').onclick=async()=>{
+  const p=$('#adminPin').value;$('#adminMsg').textContent='بنتأكد…';
+  try{
+    if(await rpc('admin_check',{p_pin:p})===true){
+      pin=p;$('#adminMsg').textContent='';
+      $('#adminLogin').classList.add('hidden');$('#adminBody').classList.remove('hidden')
+    }else $('#adminMsg').textContent='الرقم السري غلط'
+  }catch(e){$('#adminMsg').textContent='مش قادر أوصل للسيرفر'}
+};
+$('#aReset').onclick=async()=>{
+  try{await rpc('admin_race_reset',{p_pin:pin});$('#adminMsg').textContent='تم إعادة التعيين';poll()}
+  catch(e){$('#adminMsg').textContent='فشل'}
+};
+$('#adminClose').onclick=()=>{
+  $('#adminModal').classList.remove('on');pin='';$('#adminPin').value='';
+  $('#adminLogin').classList.remove('hidden');$('#adminBody').classList.add('hidden');$('#adminMsg').textContent=''
+};
+
+if(name)enter();else showView('vName');
+})();
+<\/script>
+</body>
+</html>
+
+</script>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s);
+const SB='https://djgyhxmzjywvfmtgwrug.supabase.co/rest/v1';
+const KEY='sb_publishable_5ncUmXtThYkFbYvvJIR-Ng_p8oTxj4-';
+async function api(path){
+  const r=await fetch(SB+path,{headers:{apikey:KEY}});
+  if(!r.ok)throw new Error(r.status);
+  return r.json()
+}
+const weekKey=date=>{
+  const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());
+  d.setDate(d.getDate()-((d.getDay()+1)%7));
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')
+};
+let name=localStorage.getItem('q_player_name')||'';
+
+function totals(rows){
+  const m={};
+  rows.forEach(g=>{const k=String(g.player).trim().toLowerCase();const o=m[k]||(m[k]={n:String(g.player).trim(),t:0});o.t+=Number(g.pts)||0});
+  return Object.values(m).sort((a,b)=>b.t-a.t)
+}
+async function loadBoard(){
+  try{
+    const rows=await api('/scores?select=player,pts&week=eq.'+weekKey(new Date())+'&limit=1000');
+    const list=totals(rows).slice(0,7),ol=$('#board'),medals=['🥇','🥈','🥉'];ol.textContent='';
+    list.forEach((r,i)=>{
+      const li=document.createElement('li'),s=document.createElement('span'),b=document.createElement('b');
+      s.textContent=(medals[i]||String(i+1))+' '+r.n;b.textContent=r.t;li.append(s,b);ol.append(li)
+    });
+    $('#boardEmpty').classList.toggle('hidden',list.length>0);
+    const p=new Date();p.setDate(p.getDate()-7);
+    const old=totals(await api('/scores?select=player,pts&week=eq.'+weekKey(p)+'&limit=1000'));
+    $('#lastPanel').classList.toggle('hidden',!old.length);
+    if(old.length)$('#lastWinner').textContent=old[0].n+' — '+old[0].t+' نقطة'
+  }catch(e){}
+}
+function show(){
+  $('#vName').classList.toggle('hidden',!!name);
+  $('#vHub').classList.toggle('hidden',!name);
+  if(name){$('#who').textContent=name;loadBoard()}
+  if(typeof route==='function')route()
+}
+$('#nameForm').addEventListener('submit',e=>{
+  e.preventDefault();const v=$('#nameInput').value.trim();if(!v)return;
+  name=v;localStorage.setItem('q_player_name',v);show()
+});
+$('#changeName').addEventListener('click',e=>{
+  e.preventDefault();localStorage.removeItem('q_player_name');name='';$('#nameInput').value='';show()
+});
+/* ===== التنقل بين الألعاب داخل نفس الصفحة ===== */
+const GAMES=['osama','quiz','race'];
+const frame=$('#gf'),wrap=$('#frameWrap'),appBox=$('.app');
+const gameHtml=id=>document.getElementById('g-'+id).textContent.replace(/<\\\/script>/g,'<\/script>');
+function route(){
+  const h=location.hash.replace('#','');
+  if(name&&GAMES.includes(h)){
+    appBox.classList.add('hidden');wrap.classList.remove('hidden');
+    if(frame.dataset.g!==h){frame.dataset.g=h;frame.srcdoc=gameHtml(h)}
+  }else{
+    wrap.classList.add('hidden');appBox.classList.remove('hidden');
+    if(frame.dataset.g){frame.dataset.g='';frame.srcdoc=''}
+  }
+}
+window.goHub=()=>{location.hash=''};
+window.addEventListener('hashchange',route);
+show();
 })();
 </script>
 </body>
