@@ -1906,20 +1906,50 @@ function hold(id,on,off){
 }
 hold('#leftBtn',()=>{steer=-1},()=>{if(steer===-1)steer=0});
 hold('#rightBtn',()=>{steer=1},()=>{if(steer===1)steer=0});
-$('#gasBtn').addEventListener('pointerdown',e=>{e.preventDefault();tap()});
-$('#nitroBtn').addEventListener('pointerdown',e=>{e.preventDefault();nitro()});
-$('#kickBtn').addEventListener('pointerdown',e=>{e.preventDefault();kick()});
+
+$('#gasBtn').addEventListener('pointerdown',e=>{
+  e.preventDefault();
+  tap();
+});
+
+$('#nitroBtn').addEventListener('pointerdown',e=>{
+  e.preventDefault();
+  nitro();
+});
+
+$('#kickBtn').addEventListener('pointerdown',e=>{
+  e.preventDefault();
+  kick();
+});
+
 document.addEventListener('keydown',e=>{
   if(!G||G.phase!=='racing'||e.target.tagName==='INPUT')return;
-  if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){e.preventDefault();if(!e.repeat)tap()}
-  else if(e.code==='ArrowLeft'||e.code==='KeyA'){e.preventDefault();steer=-1}
-  else if(e.code==='ArrowRight'||e.code==='KeyD'){e.preventDefault();steer=1}
-  else if(e.code==='KeyN'){e.preventDefault();nitro()}
-  else if(e.code==='KeyK'){e.preventDefault();kick()}
+
+  if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){
+    e.preventDefault();
+    if(!e.repeat)tap();
+  }
+  else if(e.code==='ArrowLeft'||e.code==='KeyA'){
+    e.preventDefault();
+    steer=-1;
+  }
+  else if(e.code==='ArrowRight'||e.code==='KeyD'){
+    e.preventDefault();
+    steer=1;
+  }
+  else if(e.code==='KeyN'){
+    e.preventDefault();
+    nitro();
+  }
+  else if(e.code==='KeyK'){
+    e.preventDefault();
+    kick();
+  }
 });
+
 document.addEventListener('keyup',e=>{
   if((e.code==='ArrowLeft'||e.code==='KeyA')&&steer===-1)steer=0;
-  if((e.code==='ArrowRight'||e.code==='KeyD')&&steer===1)steer=0
+  if((e.code==='ArrowRight'||e.code==='KeyD')&&steer===1)steer=0;
 });
 
 /* ===== مزامنة مع السيرفر ===== */
@@ -1936,7 +1966,7 @@ async function syncTick(){
   }catch(e){if(String(e.message).includes('banned'))checkBan()}
   sending=false
 }
-setInterval(syncTick,250);
+setInterval(syncTick,25ب0);
 setInterval(()=>{if(G&&G.phase==='racing')rpc('race_finalize',{}).then(poll).catch(()=>{})},2000);
 
 setInterval(()=>{
@@ -2239,7 +2269,7 @@ function lobbyErr(e){
   if(m.includes('banned'))checkBan();
   else if(m.includes('room full'))$('#lobbyMsg').textContent='الغرفة مليانة (١٠ لاعبين).';
   else if(m.includes('game running'))$('#lobbyMsg').textContent='فيه لعبة شغالة دلوقتي.';
-  else $('#lobbyMsg').textContent='⚠️ حصلت مشكلة، جرّب تاني.'
+else $('#lobbyMsg').textContent = m;
 }
 $('#btnJoin').onclick=async()=>{
   if(await checkBan())return;$('#lobbyMsg').textContent='';
