@@ -1842,7 +1842,7 @@ function frame(now){
     b.lean+=(clamp(-lv*.05,-.45,.45)-b.lean)*Math.min(1,dt*8);
     const sp=(b.d-b.pd)/Math.max(dt,.001);b.pd=b.d;b.sp+=(sp-b.sp)*Math.min(1,dt*6);
     const crashed=mine?Date.now()<crashUntil:p.crash_ms>0;
-   b.g.position.set(b.x, crashed ? 0.15 : 0, -b.d);
+    b.g.position.set(b.x,crashed?.15:0,-b.d);
     b.g.rotation.z=crashed?(p.lane%2?1.35:-1.35):b.lean;
     b.wheels.forEach(w=>{w.rotation.x-=clamp(b.sp,0,70)*dt/.38});
     if(mine){camD=b.d;camX=b.x;found=true}
@@ -1906,50 +1906,20 @@ function hold(id,on,off){
 }
 hold('#leftBtn',()=>{steer=-1},()=>{if(steer===-1)steer=0});
 hold('#rightBtn',()=>{steer=1},()=>{if(steer===1)steer=0});
-
-$('#gasBtn').addEventListener('pointerdown',e=>{
-  e.preventDefault();
-  tap();
-});
-
-$('#nitroBtn').addEventListener('pointerdown',e=>{
-  e.preventDefault();
-  nitro();
-});
-
-$('#kickBtn').addEventListener('pointerdown',e=>{
-  e.preventDefault();
-  kick();
-});
-
+$('#gasBtn').addEventListener('pointerdown',e=>{e.preventDefault();tap()});
+$('#nitroBtn').addEventListener('pointerdown',e=>{e.preventDefault();nitro()});
+$('#kickBtn').addEventListener('pointerdown',e=>{e.preventDefault();kick()});
 document.addEventListener('keydown',e=>{
   if(!G||G.phase!=='racing'||e.target.tagName==='INPUT')return;
-
-  if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){
-    e.preventDefault();
-    if(!e.repeat)tap();
-  }
-  else if(e.code==='ArrowLeft'||e.code==='KeyA'){
-    e.preventDefault();
-    steer=-1;
-  }
-  else if(e.code==='ArrowRight'||e.code==='KeyD'){
-    e.preventDefault();
-    steer=1;
-  }
-  else if(e.code==='KeyN'){
-    e.preventDefault();
-    nitro();
-  }
-  else if(e.code==='KeyK'){
-    e.preventDefault();
-    kick();
-  }
+  if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){e.preventDefault();if(!e.repeat)tap()}
+  else if(e.code==='ArrowLeft'||e.code==='KeyA'){e.preventDefault();steer=-1}
+  else if(e.code==='ArrowRight'||e.code==='KeyD'){e.preventDefault();steer=1}
+  else if(e.code==='KeyN'){e.preventDefault();nitro()}
+  else if(e.code==='KeyK'){e.preventDefault();kick()}
 });
-
 document.addEventListener('keyup',e=>{
   if((e.code==='ArrowLeft'||e.code==='KeyA')&&steer===-1)steer=0;
-  if((e.code==='ArrowRight'||e.code==='KeyD')&&steer===1)steer=0;
+  if((e.code==='ArrowRight'||e.code==='KeyD')&&steer===1)steer=0
 });
 
 /* ===== مزامنة مع السيرفر ===== */
@@ -2269,7 +2239,7 @@ function lobbyErr(e){
   if(m.includes('banned'))checkBan();
   else if(m.includes('room full'))$('#lobbyMsg').textContent='الغرفة مليانة (١٠ لاعبين).';
   else if(m.includes('game running'))$('#lobbyMsg').textContent='فيه لعبة شغالة دلوقتي.';
-else $('#lobbyMsg').textContent = m;
+  else $('#lobbyMsg').textContent='⚠️ حصلت مشكلة، جرّب تاني.'
 }
 $('#btnJoin').onclick=async()=>{
   if(await checkBan())return;$('#lobbyMsg').textContent='';
@@ -2312,7 +2282,7 @@ requestAnimationFrame(anim);
 /* ===== شاشة اللعب ===== */
 function renderGame(){
   drawTable();
-  const key=G.round+':'+G.phase+':'+(G.dare?'d':'')+':'+(isTarget()?'t':'o')+':'+(inSeats()?'s':'x');
+  const key=G.round+':'+G.phase+':'+(G.dare?'d':'')+':'+(G.answer_started?'started':'waiting')+':'+(isTarget()?'t':'o')+':'+(inSeats()?'s':'x');
   if(key!==shownKey){shownKey=key;buildPanel()}
   const cd=$('#cd');
   if(cd){
@@ -2338,79 +2308,182 @@ function msg(t){const m=$('#pmsg');if(m)m.textContent=t}
 function buildPanel(){
   const tg=G.target,t=isTarget(),seated=inSeats();
   let b;
+
   if(G.phase==='spin'){
-    b=panel('🍾 القزازة بتلف…');b.append(el('p','big','مين هيقع عليه الدور؟'))
+    b=panel('🍾 القزازة بتلف…');
+    b.append(el('p','big','مين هيقع عليه الدور؟'));
+
   }else if(G.phase==='ask'){
     if(t){
       b=panel('😈 استعد يا '+tg);
       b.append(el('p','big','الباقي بيكتبوا أسئلة ليك…'));
-      const i=el('p','note','');i.id='info';i.style.textAlign='center';b.append(i)
+      const i=el('p','note','');
+      i.id='info';
+      i.style.textAlign='center';
+      b.append(i);
     }else{
       b=panel('🤔 اكتب سؤالك لـ '+tg);
       if(seated){
-        const ta=el('textarea','input');ta.id='qIn';ta.rows=3;ta.maxLength=140;ta.placeholder='اكتب السؤال اللي عايز تسأله…';
-        const s=el('button','btn full','ابعت السؤال');s.type='button';
+        const ta=el('textarea','input');
+        ta.id='qIn';
+        ta.rows=3;
+        ta.maxLength=140;
+        ta.placeholder='اكتب السؤال اللي عايز تسأله…';
+        const s=el('button','btn full','ابعت السؤال');
+        s.type='button';
         s.onclick=async()=>{
-          const x=ta.value.trim();if(x.length<3){msg('اكتب سؤال أطول شوية');return}
-          try{await rpc('tod_submit',{p_player:name,p_body:x});msg('✅ اتبعت. تقدر تعدّله لحد ما الوقت يخلص')}
-          catch(e){msg('⚠️ السؤال ماتبعتش (ممكن الوقت خلص)')}
+          const x=ta.value.trim();
+          if(x.length<3){msg('اكتب سؤال أطول شوية');return}
+          try{
+            await rpc('tod_submit',{p_player:name,p_body:x});
+            msg('✅ اتبعت. تقدر تعدّله لحد ما الوقت يخلص');
+          }catch(e){
+            msg('⚠️ السؤال ماتبعتش (ممكن الوقت خلص)');
+          }
         };
-        b.append(ta,s)
-      }else b.append(el('p','note','بتتفرج على اللعبة.'));
-      const i=el('p','note','');i.id='info';i.style.textAlign='center';b.append(i)
+        b.append(ta,s);
+      }else{
+        b.append(el('p','note','بتتفرج على اللعبة.'));
+      }
+      const i=el('p','note','');
+      i.id='info';
+      i.style.textAlign='center';
+      b.append(i);
     }
+
   }else if(G.phase==='vote'){
     if(t){
-      b=panel('🗳️ بيختاروا السؤال');b.append(el('p','big','استعد…'));
-      const i=el('p','note','');i.id='info';i.style.textAlign='center';b.append(i)
+      b=panel('🗳️ بيختاروا السؤال');
+      b.append(el('p','big','استعد…'));
+      const i=el('p','note','');
+      i.id='info';
+      i.style.textAlign='center';
+      b.append(i);
     }else{
       b=panel('🗳️ اختار السؤال اللي يتسأل');
-      if(voteRound!==G.round){voteRound=G.round;myVote=-1}
+      if(voteRound!==G.round){
+        voteRound=G.round;
+        myVote=-1;
+      }
       G.questions.forEach((q,idx)=>{
-        const o=el('button','opt'+(myVote===idx?' sel':''),q);o.type='button';
+        const o=el('button','opt'+(myVote===idx?' sel':''),q);
+        o.type='button';
         o.onclick=async()=>{
           if(!seated)return;
           try{
-            await rpc('tod_vote',{p_player:name,p_idx:idx});myVote=idx;
-            b.querySelectorAll('.opt').forEach((x,k)=>x.classList.toggle('sel',k===idx));msg('✅ اتسجل صوتك')
-          }catch(e){msg('⚠️ الصوت ماتسجلش')}
+            await rpc('tod_vote',{p_player:name,p_idx:idx});
+            myVote=idx;
+            b.querySelectorAll('.opt').forEach((x,k)=>x.classList.toggle('sel',k===idx));
+            msg('✅ اتسجل صوتك');
+          }catch(e){
+            msg('⚠️ الصوت ماتسجلش');
+          }
         };
-        b.append(o)
+        b.append(o);
       });
-      const i=el('p','note','');i.id='info';i.style.textAlign='center';b.append(i)
+      const i=el('p','note','');
+      i.id='info';
+      i.style.textAlign='center';
+      b.append(i);
     }
+
   }else if(G.phase==='answer'){
     b=panel(t?'🎤 الدور عليك يا '+tg:'🎤 الدور على '+tg);
     b.append(el('p','big',G.question));
     if(t){
-      const r=el('div','row2');
-      const a=el('button','btn','🗣️ هجاوب');a.type='button';
-      a.onclick=async()=>{try{await rpc('tod_answer',{p_player:name,p_choice:'answer'})}catch(e){msg('⚠️ حصلت مشكلة')}};
-      const d=el('button','btn sec','😬 عقاب');d.type='button';
-      d.onclick=async()=>{try{await rpc('tod_answer',{p_player:name,p_choice:'dare'});poll()}catch(e){msg('⚠️ حصلت مشكلة')}};
-      r.append(a,d);b.append(r);
-      b.append(el('p','note','جاوب بصراحة، ولو مش عايز اختار عقاب ولازم تنفّذه.'))
-    }else b.append(el('p','note',tg+' بيجاوب أو بيختار عقاب…'))
-  }else{
+      if(G.answer_started){
+        const ta=el('textarea','input');
+        ta.rows=3;
+        ta.maxLength=500;
+        ta.placeholder='اكتب إجابتك بصراحة...';
+        const send=el('button','btn full','📨 إرسال الإجابة');
+        send.type='button';
+        send.onclick=async()=>{
+          const x=ta.value.trim();
+          if(!x){msg('اكتب إجابتك الأول');return}
+          send.disabled=true;
+          try{
+            await rpc('tod_submit_answer',{p_player:name,p_body:x});
+            poll();
+          }catch(e){
+            send.disabled=false;
+            msg('⚠️ الإجابة ماتبعتش، حاول تاني');
+          }
+        };
+        b.append(ta,send);
+      }else{
+        const r=el('div','row2');
+        const a=el('button','btn','🗣️ هجاوب');
+        a.type='button';
+        a.onclick=async()=>{
+          try{
+            await rpc('tod_answer',{p_player:name,p_choice:'answer'});
+            poll();
+          }catch(e){
+            msg('⚠️ حصلت مشكلة');
+          }
+        };
+        const d=el('button','btn sec','😬 عقاب');
+        d.type='button';
+        d.onclick=async()=>{
+          try{
+            await rpc('tod_answer',{p_player:name,p_choice:'dare'});
+            poll();
+          }catch(e){
+            msg('⚠️ حصلت مشكلة');
+          }
+        };
+        r.append(a,d);
+        b.append(r);
+        b.append(el('p','note','جاوب بصراحة، ولو مش عايز اختار عقاب.'));
+      }
+    }else{
+      b.append(el('p','note',tg+' بيجاوب أو بيختار عقاب…'));
+    }
+
+  }else if(G.phase==='dare'){
     b=panel(t?'😬 اختار عقابك':'😬 عقاب '+tg);
     if(!G.dare){
       G.dare_options.forEach((d,idx)=>{
-        const o=el('button','opt',d);o.type='button';
-        o.onclick=async()=>{if(!t)return;try{await rpc('tod_pick_dare',{p_player:name,p_idx:idx});poll()}catch(e){msg('⚠️ حصلت مشكلة')}};
-        if(!t)o.disabled=true;b.append(o)
+        const o=el('button','opt',d);
+        o.type='button';
+        o.onclick=async()=>{
+          if(!t)return;
+          try{
+            await rpc('tod_pick_dare',{p_player:name,p_idx:idx});
+            poll();
+          }catch(e){
+            msg('⚠️ حصلت مشكلة');
+          }
+        };
+        if(!t)o.disabled=true;
+        b.append(o);
       });
-      if(!t)b.append(el('p','note',tg+' بيختار عقاب من ٣…'))
+      if(!t){
+        b.append(el('p','note',tg+' بيختار عقاب من ٣…'));
+      }
     }else{
       b.append(el('p','big',G.dare));
       if(t){
-        const ok=el('button','btn full','نفّذت ✅');ok.type='button';
-        ok.onclick=async()=>{try{await rpc('tod_dare_done',{p_player:name});poll()}catch(e){msg('⚠️ حصلت مشكلة')}};
-        b.append(ok)
-      }else b.append(el('p','note','استنوا لحد ما '+tg+' ينفّذ العقاب 😄'))
+        const ok=el('button','btn full','نفّذت ✅');
+        ok.type='button';
+        ok.onclick=async()=>{
+          try{
+            await rpc('tod_dare_done',{p_player:name});
+            poll();
+          }catch(e){
+            msg('⚠️ حصلت مشكلة');
+          }
+        };
+        b.append(ok);
+      }else{
+        b.append(el('p','note','استنوا لحد ما '+tg+' ينفّذ العقاب 😄'));
+      }
     }
   }
+
   b.append(Object.assign(el('p','msg',''),{id:'pmsg'}));
-  setPanel(b)
+  setPanel(b);
 }
 $('#endBtn').onclick=async()=>{
   if(!confirm('تنهي اللعبة وترجعوا لشاشة الانتظار؟'))return;
