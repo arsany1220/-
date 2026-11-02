@@ -1966,7 +1966,7 @@ async function syncTick(){
   }catch(e){if(String(e.message).includes('banned'))checkBan()}
   sending=false
 }
-setInterval(syncTick,25ب0);
+setInterval(syncTick,250);
 setInterval(()=>{if(G&&G.phase==='racing')rpc('race_finalize',{}).then(poll).catch(()=>{})},2000);
 
 setInterval(()=>{
