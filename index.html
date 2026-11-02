@@ -1842,7 +1842,7 @@ function frame(now){
     b.lean+=(clamp(-lv*.05,-.45,.45)-b.lean)*Math.min(1,dt*8);
     const sp=(b.d-b.pd)/Math.max(dt,.001);b.pd=b.d;b.sp+=(sp-b.sp)*Math.min(1,dt*6);
     const crashed=mine?Date.now()<crashUntil:p.crash_ms>0;
-    b.g.position.set(b.x,crashed?.15:0,-b.d);
+   b.g.position.set(b.x, crashed ? 0.15 : 0, -b.d);
     b.g.rotation.z=crashed?(p.lane%2?1.35:-1.35):b.lean;
     b.wheels.forEach(w=>{w.rotation.x-=clamp(b.sp,0,70)*dt/.38});
     if(mine){camD=b.d;camX=b.x;found=true}
